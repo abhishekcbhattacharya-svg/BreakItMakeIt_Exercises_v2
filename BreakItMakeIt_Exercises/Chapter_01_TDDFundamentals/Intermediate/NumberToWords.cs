@@ -16,6 +16,9 @@ namespace BreakItMakeIt_Exercises.Chapter_01_TDDFundamentals.Intermediate
 
         public string ConvertToWord(int amount)
         {
+            //implement amount to word functionality.
+            //use Number dictionary helper class to implement your conversion steps
+            //use your logic
             throw new NotImplementedException();
         }
     }

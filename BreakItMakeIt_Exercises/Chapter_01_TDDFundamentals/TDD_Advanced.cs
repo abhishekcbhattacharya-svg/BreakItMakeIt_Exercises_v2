@@ -22,11 +22,16 @@ public class TDD_Advanced
     }
 
     [Test]
-    public async Task Login_Should_Succeed()
+    public async Task SearchTDDOnline()
     {
         //Arrange - SetUp
         //Act - multiple steps
         //Validate, interact using _page
+
+        //Steps
+        //Go to google
+        //search TDD
+        //Read first search result
 
         // Assert
         Assert.Fail();

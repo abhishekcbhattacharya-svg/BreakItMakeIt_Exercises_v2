@@ -11,6 +11,7 @@ namespace BreakItMakeIt_Exercises.Chapter_01_TDDFundamentals.Beginner
     {
         public int Sum(int a, int b)
         {
+            //implement addition of two numbers.
             throw new NotImplementedException();
         }
     }
