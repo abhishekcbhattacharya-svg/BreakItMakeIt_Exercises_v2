@@ -1,0 +1,70 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using WebProject.Controllers;
+using WebProject.Models;
+
+namespace BreakItMakeIt_Exercises;
+
+public class FrameworkValidationTests
+{
+    [Test]
+    public void Should_Handle_Error()
+    {
+        //Arrange
+        UserController userController = new UserController();
+        var model = new UserModel { Name = "", Age = 25 };
+        //Model error
+        userController.ModelState.AddModelError("", "Name is required");
+        //Act
+        var response = userController.Create(model);
+        //Assert
+        Assert.That(response, Is.InstanceOf<BadRequestObjectResult>());
+        
+        var errorObj = response is BadRequestObjectResult ? (BadRequestObjectResult)response : null;
+        bool errorCode = errorObj?.StatusCode == 400;
+        Assert.That(errorObj?.StatusCode, Is.EqualTo(400));
+        var errResponse = errorObj?.Value;
+        var modelError = errResponse is SerializableError ? errResponse as SerializableError : null;
+        var actualErrorMessage = modelError != null ? ((string[])modelError[""])[0] : null;
+        Assert.That(actualErrorMessage, Is.EqualTo("Name is required"));
+
+    }
+
+    [Test]
+    public void Should_Fail_WhenNameIsEmpty()
+    {
+        var model = new UserModel { Name = "", Age = 25 };
+        var results = ValidateModel(model);
+
+        Assert.IsNotEmpty(results);
+        Assert.That(results[0].ErrorMessage, Is.EqualTo("Name is required"));
+    }
+
+    [Test]
+    public void Should_Fail_WhenAgeOutOfRange()
+    {
+        var model = new UserModel { Name = "Alice", Age = 70 };
+        var results = ValidateModel(model);
+
+        Assert.IsNotEmpty(results);
+        Assert.That(results[0].ErrorMessage, Is.EqualTo("Age must be between 18 and 60"));
+    }
+
+    [Test]
+    public void Should_Pass_WhenModelValid()
+    {
+        var model = new UserModel { Name = "Bob", Age = 30 };
+        var results = ValidateModel(model);
+
+        Assert.IsEmpty(results);
+    }
+
+    private IList<ValidationResult> ValidateModel(object model)
+    {
+        //Implement
+        var results = new List<ValidationResult>();
+        var context = new ValidationContext(model, null, null);
+        Validator.TryValidateObject(model, context, results, true);
+        return results;
+    }
+}
