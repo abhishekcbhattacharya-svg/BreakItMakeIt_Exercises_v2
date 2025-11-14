@@ -2,18 +2,9 @@
 
 namespace WebProject.Models
 {
-    //public class UserModel
-    //{
-    //    public string Name { get; set; }
-    //    public int Age { get; set; }
-    //}
     public class UserModel
     {
-        [Required(ErrorMessage = "Name is required")]
-        [StringLength(50, ErrorMessage = "Name must be less than 50 characters")]
         public string Name { get; set; }
-
-        [Range(18, 60, ErrorMessage = "Age must be between 18 and 60")]
         public int Age { get; set; }
     }
 }
